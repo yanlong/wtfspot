@@ -1,5 +1,6 @@
 // API must be configured and built after startup!
 var useAuth = true;
+var actions = ['安慰', '送纸'];
 Meteor.startup(function() {
     // Global configuration
     Restivus.configure({
@@ -19,7 +20,7 @@ Meteor.startup(function() {
         post: resp(function() {
             check(this.bodyParams, {
                 content: String,
-                actions: [Match.OneOf.apply(null, ['安慰', '送纸'])],
+                actions: [Match.OneOf.apply(null, actions)],
             })
             var selector = {
             }
@@ -27,8 +28,27 @@ Meteor.startup(function() {
             };
             var override = {
                 device: this.deviceId,
+                nActions: {
+                },
             }
             return insert.call(this, Posts, selector, defualts, override);
+        }),
+    })
+    Restivus.addRoute('posts/:postId/actions/', {
+        authRequired: false,
+    }, {
+        post: resp(function() {
+            check(this.bodyParams, {
+                action: String,
+            })
+            var post = Posts.findOne({_id:this.params.postId, actions:this.bodyParams.action});
+            if (!post) {
+                throw new Meteor.Error('invlid-post');
+            }
+            var query = {$inc:{}};
+            query.$inc['nActions.'+this.bodyParams.action] = 1;
+            Posts.update(this.params.postId, query);
+            return Posts.findOne(this.params.postId);
         }),
     })
 });
