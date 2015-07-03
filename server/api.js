@@ -14,6 +14,7 @@ Meteor.startup(function() {
     }, {
         get: resp(function() {
             var query = {
+                device: null,
             }
             return layerRoute.call(this, Posts, 'postId', null, query);
         }),
