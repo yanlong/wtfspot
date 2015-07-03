@@ -21,13 +21,12 @@ Meteor.startup(function() {
         post: resp(function() {
             var match = _.clone(actions);
             match.push([Match.OneOf.apply(null, actions)]);
+            match = Match.OneOf.apply(null, match);
+            this.bodyParams.actions = (this.bodyParams.actions||'').split(',');
             check(this.bodyParams, {
                 content: String,
-                actions: Match.OneOf.apply(null, match),
+                actions: match,
             })
-            if (_.isString(this.bodyParams.actions)) {
-                this.bodyParams.actions = [this.bodyParams.actions]
-            }
             var selector = {
             }
             var defualts = {
@@ -290,6 +289,7 @@ function resp(fn) {
                 data: data,
             }
         } catch (e) {
+            logger.warn(e);
             e = e.sanitizedError || e;
             var res = {
                 statusCode: 500,
@@ -298,7 +298,6 @@ function resp(fn) {
                 }
             }
             res.body.message = res.body.message || 'unknown-error';
-            logger.warn(e);
             return res;
         }
     }
