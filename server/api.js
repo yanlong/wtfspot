@@ -16,13 +16,18 @@ Meteor.startup(function() {
             var query = {
                 device: null,
             }
-            return layerRoute.call(this, Posts, 'postId', null, query);
+            return layerRoute.call(this, Posts, 'postId', null, query, {fields:{device:0}});
         }),
         post: resp(function() {
+            var match = _.clone(actions);
+            match.push([Match.OneOf.apply(null, actions)]);
             check(this.bodyParams, {
                 content: String,
-                actions: [Match.OneOf.apply(null, actions)],
+                actions: Match.OneOf.apply(null, match),
             })
+            if (_.isString(this.bodyParams.actions)) {
+                this.bodyParams.actions = [this.bodyParams.actions]
+            }
             var selector = {
             }
             var defualts = {
@@ -34,6 +39,15 @@ Meteor.startup(function() {
             }
             return insert.call(this, Posts, selector, defualts, override);
         }),
+        delete: resp(function () {
+            check(this.params.postId, String);
+            var selector = {
+                device: this.deviceId,
+                _id: this.params.postId,
+            }
+            // return selector;
+            return Posts.remove(selector);
+        })
     })
     Restivus.addRoute('posts/:postId/actions/', {
         authRequired: false,
@@ -61,7 +75,9 @@ Meteor.startup(function() {
             var query = {$inc:{}};
             query.$inc['nActions.'+action] = 1;
             Posts.update(this.params.postId, query);
-            return Posts.findOne(this.params.postId);
+            post = Posts.findOne(this.params.postId);
+            delete post.device;
+            return post;
         }),
     })
 });
