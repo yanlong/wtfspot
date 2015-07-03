@@ -42,12 +42,24 @@ Meteor.startup(function() {
             check(this.bodyParams, {
                 action: String,
             })
-            var post = Posts.findOne({_id:this.params.postId, actions:this.bodyParams.action});
+            var action = this.bodyParams.action;
+            var post = Posts.findOne({_id:this.params.postId, actions:action});
             if (!post) {
                 throw new Meteor.Error('invlid-post');
             }
+            // limit check
+            var selector = {device:this.deviceId, post:this.params.postId};
+            var update = {$inc:{}}
+            update.$inc['nActions.'+action] = 1;
+            var userAction = Actions.upsert(selector, update);
+            userAction = Actions.findOne(selector);
+            var now = userAction.nActions[action] || 0;
+            var limit = 3;
+            if (now > limit) {
+                throw new Meteor.Error('exceeded-action-limit');
+            }
             var query = {$inc:{}};
-            query.$inc['nActions.'+this.bodyParams.action] = 1;
+            query.$inc['nActions.'+action] = 1;
             Posts.update(this.params.postId, query);
             return Posts.findOne(this.params.postId);
         }),
