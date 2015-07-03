@@ -80,6 +80,34 @@ Meteor.startup(function() {
             return post;
         }),
     })
+    Restivus.addRoute('feedbacks/:feedbackId?', {
+        authRequired: false,
+    }, {
+        get: resp(function() {
+            var selector = {
+                device: this.deviceId,
+            }
+            var query = {
+            }
+            return layerRoute.call(this, Feedbacks, 'feedbackId', selector, query);
+        }),
+        post: resp(function () {
+            check(this.bodyParams, {
+                os: String,
+                model: String,
+                version: String,
+                contact: String,
+                content: String,
+            })
+            var selector = this.bodyParams;
+            var defualts = {
+                device: this.deviceId,
+            };
+            var override = {
+            }
+            return insert.call(this, Feedbacks, selector, defualts, override);
+        })
+    })
 });
 
 var cache = {};
