@@ -1,0 +1,25 @@
+<template name="userList">
+  <div class="posts page">
+    <div class="wrapper">
+      {{#each users}}
+        {{> userListItem}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="userListItem">
+  <div class="topic" id="{{_id}}">
+    <div class="topic-content">
+      <h3><a href="#">{{username}}</a></h3>
+      <p>注册时间: {{timestamp2datetime ctime}}</p>
+      <p>id: {{_id}}</p>
+      <p>昵称: {{username}}</p>
+      <p>手机: {{profile.phone}}</p>
+      <p>性别: {{profile.sex}}</p>
+      <p>积分: {{fortune.scores}}</p>
+      <p>点券: {{fortune.credits}}</p>
+      <!-- <p><a href="{{pathFor 'userList'}}?user={{_id}}">评论</a><a href="{{pathFor 'userList'}}?user={{_id}}">反馈</a></p> -->
+    </div>
+  </div>
+</template>
