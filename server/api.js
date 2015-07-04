@@ -25,7 +25,7 @@ Meteor.startup(function() {
             this.bodyParams.actions = (this.bodyParams.actions||'').split(',');
             check(this.bodyParams, {
                 content: String,
-                actions: match,
+                actions: [String], // fortest
             })
             var selector = {
             }
