@@ -8,16 +8,13 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{pathFor 'home'}}">XXX</a>
+        <a class="navbar-brand" href="{{pathFor 'home'}}">WTF!</a>
       </div>
       <div class="collapse navbar-collapse" id="navigation">
         <ul class="nav navbar-nav">
           {{#if currentUser}}
-            <li class="{{activeRouteClass  'topicList'}}">
-              <a href="{{pathFor 'topicList'}}">话题</a>
-            </li>
-            <li class="{{activeRouteClass  'userList'}}">
-              <a href="{{pathFor 'userList'}}">用户</a>
+            <li class="{{activeRouteClass  'postsList'}}">
+              <a href="{{pathFor 'postsList'}}">Posts</a>
             </li>
           {{/if}}
         </ul>

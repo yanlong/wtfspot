@@ -47,3 +47,9 @@ Template.postsList.rendered = function () {
     }
   }
 }
+
+Template.postsListItem.helpers({
+  count: function (nActions, action) {
+    return nActions[action] || 0;
+  }
+})

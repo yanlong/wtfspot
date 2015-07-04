@@ -1,4 +1,4 @@
-.grid-block, .main, .topic, .comments li, .comment-form {
+.grid-block, .main, .post, .comments li, .comment-form {
   background: #fff;
   border-radius: 3px;
   padding: 10px;
@@ -29,50 +29,50 @@ body {
 #spinner {
   height: 300px; }
 
-.topic {
+.post {
   /* For modern browsers */
   /* For IE 6/7 (trigger hasLayout) */
   *zoom: 1;
   position: relative;
   opacity: 1; }
-  .topic:before, .topic:after {
+  .post:before, .post:after {
     content: "";
     display: table; }
-  .topic:after {
+  .post:after {
     clear: both; }
-  .topic.invisible {
+  .post.invisible {
     opacity: 0; }
-  .topic.instant {
+  .post.instant {
     -webkit-transition: none;
     -moz-transition: none;
     -o-transition: none;
     transition: none; }
-  .topic.animate{
+  .post.animate{
     -webkit-transition: all 300ms 0ms;
     -moz-transition: all 300ms 0ms ease-in;
     -o-transition: all 300ms 0ms ease-in;
     transition: all 300ms 0ms ease-in; }
-  .topic .upvote {
+  .post .upvote {
     display: block;
     margin: 7px 12px 0 0;
     float: left; }
-  .topic .topic-content {
+  .post .post-content {
     float: left; }
-    .topic .topic-content h3 {
+    .post .post-content h3 {
       margin: 0;
       line-height: 1.4;
       font-size: 18px; }
-      .topic .topic-content h3 a {
+      .post .post-content h3 a {
         display: inline-block;
         margin-right: 5px; }
-      .topic .topic-content h3 span {
+      .post .post-content h3 span {
         font-weight: normal;
         font-size: 14px;
         display: inline-block;
         color: #aaaaaa; }
-    .topic .topic-content p {
+    .post .post-content p {
       margin: 0; }
-  .topic .discuss {
+  .post .discuss {
     display: block;
     float: right;
     margin-top: 7px; }
@@ -111,7 +111,7 @@ body {
     text-decoration: none;
     background: rgba(0, 0, 0, 0.1); }
 
-.topics .spinner-container{
+.posts .spinner-container{
   position: relative;
   height: 100px;
 }

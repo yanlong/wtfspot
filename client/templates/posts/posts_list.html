@@ -2,7 +2,7 @@
   <div class="posts page">
     <div class="wrapper">
       {{#each posts}}
-        {{> postItem}}
+        {{>postsListItem}}
       {{/each}}
     </div>
     
@@ -10,8 +10,22 @@
       <a class="load-more" href="{{nextPath}}">Load more</a>
     {{else}}
       {{#unless ready}}
-        {{> spinner}}
+        <!-- {{> spinner}} -->
       {{/unless}}
     {{/if}}
+  </div>
+</template>
+
+<template name="postsListItem">
+  <div class="post">
+    <div class="post-content">
+      <p><a href="#">{{_id}}</a></p>
+      <p>{{content}}</p>
+      <p>
+        {{#each actions}}
+          {{this}}*{{count ../nActions this}}
+        {{/each}}
+      </p>
+    </div>
   </div>
 </template>

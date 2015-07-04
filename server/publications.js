@@ -10,3 +10,7 @@ Meteor.publish('feedbacks', function () {
     return Feedbacks.find();
 })
 
+Meteor.publish('posts', function () {
+    return Posts.find();
+})
+
