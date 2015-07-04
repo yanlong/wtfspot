@@ -19,8 +19,8 @@ Meteor.startup(function() {
             return layerRoute.call(this, Posts, 'postId', null, query, {fields:{device:0}});
         }),
         post: resp(function() {
-            var match = _.clone(actions);
-            match.push([Match.OneOf.apply(null, actions)]);
+            var match = _.clone(actionNames());
+            match.push([Match.OneOf.apply(null, actionNames())]);
             match = Match.OneOf.apply(null, match);
             this.bodyParams.actions = (this.bodyParams.actions||'').split(',');
             check(this.bodyParams, {
@@ -106,6 +106,13 @@ Meteor.startup(function() {
             }
             return insert.call(this, Feedbacks, selector, defualts, override);
         })
+    })
+    Restivus.addRoute('actionNames/', {
+        authRequired: false,
+    }, {
+        get: resp(function() {
+            return actionNames();
+        }),
     })
 });
 
@@ -310,3 +317,8 @@ function authenticate(req) {
     return Meteor.users.findOne(selector, {fields:{username:1, profile:1}});
 }
 
+function actionNames() {
+    return ActionNames.find().map(function (v) {
+        return v.name;
+    })
+}

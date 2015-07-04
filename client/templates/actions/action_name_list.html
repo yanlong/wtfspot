@@ -1,0 +1,27 @@
+<template name="actionNameList">
+  <div class="posts page">
+    <div class="wrapper">
+    {{>insertActionName}}
+      {{#each actionNames}}
+        {{>actionNameListItem}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="actionNameListItem">
+      <span style="cursor:pointer;" data-id="{{_id}}" class="name label label-primary">{{name}}</span>
+</template>
+
+
+<template name="insertActionName">
+  <div class="form-group">
+    <label for="sel1">标签名称:</label>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">+</button>
+      </span>
+    </div>
+  </div>
+</template>

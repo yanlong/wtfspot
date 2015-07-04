@@ -14,3 +14,7 @@ Meteor.publish('posts', function () {
     return Posts.find();
 })
 
+Meteor.publish('actionNames', function () {
+    return ActionNames.find();
+})
+
