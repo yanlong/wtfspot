@@ -116,6 +116,21 @@ Meteor.startup(function() {
             return actionNames();
         }),
     })
+    Restivus.addRoute('stats/', {
+        authRequired: false,
+    }, {
+        get: resp(function() {
+            var count = 0;
+            Posts.find({device:this.deviceId}).forEach(function (post) {
+                _.each(post.nActions, function (v) {
+                    count += v;
+                });
+            })
+            return {
+                nActions: count,
+            }
+        }),
+    })
 });
 
 var cache = {};
