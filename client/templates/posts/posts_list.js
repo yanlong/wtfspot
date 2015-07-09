@@ -53,3 +53,11 @@ Template.postsListItem.helpers({
     return nActions[action] || 0;
   }
 })
+
+Template.postsListItem.events({
+  'dblclick .post-title': function (e) {
+    if (confirm('确认删除？')) {
+      Posts.remove(this._id);
+    }
+  }
+})
