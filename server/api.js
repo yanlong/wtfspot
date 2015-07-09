@@ -16,6 +16,7 @@ Meteor.startup(function() {
             var query = {
                 device: null,
             }
+            return this.queryParams;
             return layerRoute.call(this, Posts, 'postId', null, query, {fields:{device:0}});
         }),
         post: resp(function() {
@@ -27,6 +28,8 @@ Meteor.startup(function() {
                 content: String,
                 actions: [String], // fortest
             })
+            // insert _light action
+            this.bodyParams.actions.push('_light');
             var selector = {
             }
             var defualts = {
