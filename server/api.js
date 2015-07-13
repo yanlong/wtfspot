@@ -16,7 +16,7 @@ Meteor.startup(function() {
             var query = {
                 device: null,
             }
-            return layerRoute.call(this, Posts, 'postId', null, query, {fields:{device:0}});
+            return layerRoute.call(this, Posts, 'postId', {status:{$ne:'deleted'}}, query, {fields:{device:0}});
         }),
         post: resp(function() {
             var match = _.clone(actionNames());
@@ -28,7 +28,7 @@ Meteor.startup(function() {
                 actions: [String], // fortest
             })
             // insert _light action
-            this.bodyParams.actions.push('_light');
+            // this.bodyParams.actions.push('_light');
             var selector = {
             }
             var defualts = {
@@ -47,7 +47,7 @@ Meteor.startup(function() {
                 _id: this.params.postId,
             }
             // return selector;
-            return Posts.remove(selector);
+            return Posts.update(selector,{$set: {status: 'deleted'}});
         })
     })
     Restivus.addRoute('posts/:postId/actions/', {
@@ -59,7 +59,7 @@ Meteor.startup(function() {
             })
             var action = this.bodyParams.action;
             var post = Posts.findOne({_id:this.params.postId, actions:action});
-            if (!post) {
+            if (action != '_light' && !post) {
                 throw new Meteor.Error('invlid-post');
             }
             // limit check

@@ -11,7 +11,7 @@ Meteor.publish('feedbacks', function () {
 })
 
 Meteor.publish('posts', function () {
-    return Posts.find();
+    return Posts.find({status:{$ne:'deleted'}});
 })
 
 Meteor.publish('actionNames', function () {
