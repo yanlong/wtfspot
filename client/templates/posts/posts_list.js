@@ -51,6 +51,9 @@ Template.postsList.rendered = function () {
 Template.postsListItem.helpers({
   count: function (nActions, action) {
     return nActions[action] || 0;
+  },
+  reported: function () {
+    return this.status == 'reported';
   }
 })
 
@@ -58,6 +61,11 @@ Template.postsListItem.events({
   'dblclick .post-title': function (e) {
     if (confirm('确认删除？')) {
       Posts.update(this._id, {$set: {status: 'deleted'}});
+    }
+  },
+  'click a.forbid': function (e) {
+    if (confirm('确认封禁？')) {
+      Posts.update(this._id, {$set: {status: 'forbidden'}});
     }
   }
 })

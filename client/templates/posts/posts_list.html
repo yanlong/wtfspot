@@ -20,11 +20,17 @@
   <div class="post">
     <div class="post-content">
       <p><a class="post-title" href="#">{{_id}}</a></p>
-      <p>{{content}}</p>
+      <p>内容：{{content}}</p>
+      <p>状态：{{status}}</p>
       <p>
         {{#each actions}}
           {{this}}*{{count ../nActions this}}
         {{/each}}
+      </p>
+      <p>
+        {{#if reported}}
+        <a class="forbid" href="#">封禁</a>
+        {{/if}}
       </p>
     </div>
   </div>

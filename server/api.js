@@ -16,7 +16,11 @@ Meteor.startup(function() {
             var query = {
                 device: null,
             }
-            return layerRoute.call(this, Posts, 'postId', {status:{$ne:'deleted'}}, query, {fields:{device:0}});
+            var status = ['deleted'];
+            if (!this.queryParams.device) {
+                status.push('forbidden');
+            }
+            return layerRoute.call(this, Posts, 'postId', {status:{$nin: status}}, query, {fields:{device:0}});
         }),
         post: resp(function() {
             var match = _.clone(actionNames());
