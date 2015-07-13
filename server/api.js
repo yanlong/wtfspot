@@ -109,6 +109,19 @@ Meteor.startup(function() {
             return insert.call(this, Feedbacks, selector, defualts, override);
         })
     })
+    Restivus.addRoute('posts/:postId/reports/:reportId?', {
+        authRequired: false,
+    }, {
+        post: resp(function () {
+            check(this.bodyParams, {
+            })
+            var selector = {
+                device: this.deviceId,
+                post: this.params.postId,
+            }
+            return Reports.upsert(selector, selector);
+        })
+    })
     Restivus.addRoute('actionNames/', {
         authRequired: false,
     }, {
@@ -279,6 +292,7 @@ function populateUser(docs) {
 
 function insert(collection, selector, defualts, override, upsert) {
     var data = {};
+    selector = selector || {};
     defualts = defualts || {};
     override = override || {};
     _.extend(data, defualts, this.bodyParams, selector, override);
