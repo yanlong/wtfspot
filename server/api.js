@@ -23,6 +23,7 @@ Meteor.startup(function() {
             return layerRoute.call(this, Posts, 'postId', {status:{$nin: status}}, query, {fields:{device:0}});
         }),
         post: resp(function() {
+            var self = this;
             var names = actionNames();
             names = names.length ? names: ['x'];
             var match = _.clone(names);
@@ -33,9 +34,16 @@ Meteor.startup(function() {
                 content: String,
                 actions: [String],
                 scene: Match.Optional(String),
-            })
+                begin: Match.Optional(String),
+                end: Match.Optional(String),
+            });
             // insert _light action
             // this.bodyParams.actions.push('_light');
+            ['begin', 'end'].forEach(function (attr) {
+                if (self.bodyParams[attr]) {
+                    self.bodyParams[attr] = parseInt(self.bodyParams[attr]);
+                }
+            })
             var selector = {
             }
             var defualts = {
