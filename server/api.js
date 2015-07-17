@@ -23,13 +23,16 @@ Meteor.startup(function() {
             return layerRoute.call(this, Posts, 'postId', {status:{$nin: status}}, query, {fields:{device:0}});
         }),
         post: resp(function() {
-            var match = _.clone(actionNames());
-            match.push([Match.OneOf.apply(null, actionNames())]);
+            var names = actionNames();
+            names = names.length ? names: ['x'];
+            var match = _.clone(names);
+            match.push([Match.OneOf.apply(null, names)]);
             match = Match.OneOf.apply(null, match);
             this.bodyParams.actions = (this.bodyParams.actions||'').split(',');
             check(this.bodyParams, {
                 content: String,
-                actions: [String], // fortest
+                actions: [String],
+                scene: Match.Optional(String),
             })
             // insert _light action
             // this.bodyParams.actions.push('_light');
