@@ -4,7 +4,11 @@ var fs = require('fs');
 
 var args = process.argv.slice(2);
 var file = args[0];
+var env = args[1] || 'development';
 
+var host = env == 'production' ? 'http://dev.china-caogen.com:8100' : 'http://localhost:3000';
+
+console.log('Run on:', env, host);
 
 var content = xlsx.parse(file);
 
@@ -41,8 +45,7 @@ function insert(post) {
 
     var option = {
         method: 'post',
-        // url: 'http://localhost:3000/api/posts',
-        url: 'http://dev.china-caogen.com:8100/api/posts',
+        url: host + '/api/posts',
         headers: {
             'x-device-id': 'wtfspot',
         },
@@ -54,6 +57,7 @@ function insert(post) {
             end: post[6],
         }
     };
+
     // console.log(option);
     requestWrapper(option, function(err, res, body) {
         if (err) {
