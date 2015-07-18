@@ -9,6 +9,14 @@ Meteor.startup(function() {
     Restivus.addCollection(Meteor.users, {routeOptions:{
         authRequired: true,
     }});
+    Restivus.addRoute('goodluck', {
+        authRequired: false,
+    }, {
+        get: resp(function() {
+            var id = goodluck(PostPool);
+            return Posts.findOne(id);
+        }),
+    });
     Restivus.addRoute('posts/:postId?', {
         authRequired: false,
     }, {
@@ -368,3 +376,20 @@ function actionNames() {
         return v.name;
     })
 }
+
+
+function goodluck(posts) {
+    var total = _.reduce(posts, function (memo, v) {
+        return memo + v.weight;
+    }, 0);
+    var roll = _.random(1, total);
+    var count = 0;
+    console.log(posts, roll);
+    for (var i = 0; i < posts.length; i++) {
+        count += posts[i].weight;
+        if (count >= roll) {
+            return posts[i].post;
+        }
+    };
+}
+
