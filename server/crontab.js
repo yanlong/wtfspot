@@ -14,10 +14,10 @@ SyncedCron.add({
         };
         var now = Date.now();
         // get pgc
-        var pgc = weights(Posts.find(selector), now);
+        var pgc = weights(Posts.find(_.extend({}, selector, {device:'wtfspot'})), now);
         selector.ctime = {$gt: Date.now() - 3600*1000};
         // get ugc
-        var ugc = weights(Posts.find(selector), now);
+        var ugc = weights(Posts.find(_.extend({}, selector, {device: {$ne:'wtfspot'}})), now);
         // merge
         var all = pgc.concat(ugc);
         // get weights
@@ -47,7 +47,23 @@ function weights(posts, now) {
         } else {
             weights.time = 0;
         }
-        weights.time = _.random(60);
+        // weights.rate = post.pv ? 10000: 0;
+        var nActions = _.reduce(post.nActions, function (memo, v) {
+            return memo + v;
+        }, 0);
+        if (post.pv) {
+            var rate = (nActions / post.pv) * 100;
+            if (rate < 5) {
+                weights.rate = 0;
+            } else if (rate < 10) {
+                weights.rate = 6;
+            } else if (rate < 15) {
+                weights.rate = 10;
+            } else {
+                weights.rate = 20;
+            }
+        }
+        weights.time = _.random(20);
         return { 
             weight: weights.time + weights.rate,
             post: post._id,

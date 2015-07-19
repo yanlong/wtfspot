@@ -14,7 +14,8 @@ Meteor.startup(function() {
     }, {
         get: resp(function() {
             var id = goodluck(PostPool);
-            return Posts.findOne(id);
+            Posts.update(id, {$inc:{pv:1}});
+            return Posts.findOne(id, {fields:{device:0}});
         }),
     });
     Restivus.addRoute('posts/:postId?', {
@@ -384,7 +385,7 @@ function goodluck(posts) {
     }, 0);
     var roll = _.random(1, total);
     var count = 0;
-    console.log(posts, roll);
+    // console.log(posts, total, roll);
     for (var i = 0; i < posts.length; i++) {
         count += posts[i].weight;
         if (count >= roll) {
