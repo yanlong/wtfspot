@@ -97,15 +97,20 @@ SyncedCron.add({
                 return;
             }
             var base = 6 - gap / 600;
-            var primary = ctime % (post.actions.length + 1);
+            // var primary = ctime % (post.actions.length + 1);
+            var seed = ctime % 1000;
+            var sr = new SeedRand(seed, 100);
             var actions = post.actions.concat(['_light']);
-            var times = [ctime % 42] / 10
+            var times = sr.batch(actions.length).map(function (v) {
+                return v % 5 +1;
+            });
+            // var times = [ctime % 42] / 10
             var delta = ctime % 6;
             var query = {
             };
             for (var i = 0; i < actions.length; i++) {
                 var rand = Math.floor(Math.random()* 100) % 6;
-                var inc = (base + delta) * (i == primary ? times: 1) + rand;
+                var inc = (base + delta) * times[i] + rand;
                 query['nActions.'+actions[i]] = Math.floor(inc);
             }
             logger.info('auto inc: ', post._id, query, times);
@@ -114,3 +119,33 @@ SyncedCron.add({
         })
     }
 });
+
+function SeedRand(seed, mode) {
+    this.seed = seed || 1;
+    this.mode = mode;
+}
+
+SeedRand.prototype.rand = function () {
+    var x = Math.sin(this.seed) * 10000;
+    this.seed += 10;
+    var y = x - Math.floor(x);
+    return this.mode ? Math.floor(y*this.mode) : y;
+}
+
+SeedRand.prototype.batch = function (num, unique) {
+    unique = unique === undefined ? false: unique;
+    if (unique && this.mode && num > this.mode) {
+        throw new Error('Exceed mode limit');
+    }
+    var count = num;
+    var map = {};
+    var values = [];
+    while (count) {
+        var value = this.rand();
+        if (unique && (value in map)) continue;
+        map[value] = true;
+        values.push(value);
+        count--;
+    }
+    return values;
+}

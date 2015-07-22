@@ -6,7 +6,7 @@ Reports.find({}).observe({
 			return;
 		}
 		var count = Reports.find({post: postId}).count(); 
-		var limit = 3;
+		var limit = 1;
 		if (count >= limit) {
 			Posts.update(postId, {$set: {status: 'reported'}});
 			logger.info('Post be reported: ', postId);
