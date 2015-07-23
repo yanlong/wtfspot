@@ -13,9 +13,20 @@ Meteor.startup(function() {
         authRequired: false,
     }, {
         get: resp(function() {
-            var id = goodluck(PostPool);
-            Posts.update(id, {$inc:{pv:1}});
-            return Posts.findOne(id, {fields:{device:0}});
+            var limit = this.queryParams.limit || 3;
+            var ids = [];
+            while (true){
+                var id = goodluck(PostPool);
+                if (!_.contains(ids,id)) {
+                    ids.push(id);
+                }
+                if (ids.length >= limit) {
+                    break;
+                }
+            }
+            var selector = {_id:{$in:ids}};
+            Posts.update(selector, {$inc:{pv:1}});
+            return Posts.find(selector, {fields:{device:0}}).fetch();
         }),
     });
     Restivus.addRoute('posts/:postId?', {
