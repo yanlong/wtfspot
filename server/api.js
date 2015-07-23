@@ -15,9 +15,14 @@ Meteor.startup(function() {
         get: resp(function() {
             var limit = this.queryParams.limit || 3;
             var ids = [];
-            while (true){
+            var count = 100;
+            while (count--){
                 var id = goodluck(PostPool);
-                if (!_.contains(ids,id)) {
+                var history = {
+                    device: this.deviceId,
+                }
+                history['posts.'+id] = {$exists: 1};
+                if (!_.contains(ids,id) && !BrowsingHistory.findOne(history, {device:1})) {
                     ids.push(id);
                 }
                 if (ids.length >= limit) {
@@ -26,6 +31,11 @@ Meteor.startup(function() {
             }
             var selector = {_id:{$in:ids}};
             Posts.update(selector, {$inc:{pv:1}}, {multi:true});
+            var op = _.reduce(ids, function (memo, v) {
+                memo['posts.'+v] = 1;
+                return memo;
+            }, {})
+            BrowsingHistory.upsert({device: this.deviceId}, {$set: op})
             return Posts.find(selector, {fields:{device:0}}).fetch();
         }),
     });
