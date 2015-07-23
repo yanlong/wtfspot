@@ -7,10 +7,12 @@ SyncedCron.add({
         // return parser.text('at 22:00');
     },
     job: function() {
+        var hour = new Date().getHours();
         var selector = {
             status: {
                 $nin: ['deleted', 'forbidden']
             },
+            $or: [{begin: {$lte:hour}, end: {$gt:hour}}, {$or: [{begin: {$exists:false}},{end: {$exists:false}}]}],
         };
         var now = Date.now();
         // get pgc
