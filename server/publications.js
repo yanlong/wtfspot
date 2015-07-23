@@ -10,8 +10,10 @@ Meteor.publish('feedbacks', function () {
     return Feedbacks.find();
 })
 
-Meteor.publish('posts', function () {
-    return Posts.find({status:{$ne:'deleted'}});
+Meteor.publish('posts', function (selector) {
+    selector = selector || {};
+    selector.status = {$ne:'deleted'};
+    return Posts.find(selector);
 })
 
 Meteor.publish('actionNames', function () {
