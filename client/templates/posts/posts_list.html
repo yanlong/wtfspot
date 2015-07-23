@@ -25,9 +25,10 @@
       <p>场景：{{scene}}</p>
       <p>星级：{{stars}} <a class="set-stars" href="#">Set</a></p>
       <p>时间：{{begin}} ~ {{end}}</p>
-      <p>
+      <p>回应：
         {{#each actions}}
-          {{this}}*{{count ../nActions this}}
+          <p style="margin-left:30px;">{{this}} count:{{count ../nActions this}} seeds:{{seed ../seeds this}} 
+          <a class="set-seed" data-id="{{../_id}}" data-action="{{this}}" href="#">Set</a></p>
         {{/each}}
       </p>
       <p>

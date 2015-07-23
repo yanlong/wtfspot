@@ -54,6 +54,14 @@ Template.postsListItem.helpers({
   },
   reported: function () {
     return this.status == 'reported';
+  },
+  seed: function (seeds, action) {
+    seeds = seeds || {};
+    return seeds[action] || 1;
+  },
+  actions: function () {
+    this.actions.push('_light');
+    return this.actions;
   }
 })
 
@@ -64,9 +72,21 @@ Template.postsListItem.events({
     }
   },
   'click .set-stars': function (e) {
-    var stars = prompt('输入星级：', '1 ~ 7');
+    var stars = parseInt(prompt('输入星级：', '1 ~ 7'));
     if (stars)
       Posts.update(this._id, {$set: {stars: stars}});   
+  },
+  'click .set-seed': function (e) {
+    var post = $(e.target).data('id');
+    var seed = parseInt(prompt('输入比例值：', '1 ~ 10'));
+    var action = $(e.target).data('action');
+    if (seed){
+      var val = {};
+      val['seeds.'+action] = seed;
+      console.log(val);
+      console.log(this);
+      Posts.update(post, {$set: val});   
+    }
   },
   'click a.forbid': function (e) {
     if (confirm('确认封禁？')) {
