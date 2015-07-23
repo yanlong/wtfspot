@@ -25,7 +25,7 @@ Meteor.startup(function() {
                 }
             }
             var selector = {_id:{$in:ids}};
-            Posts.update(selector, {$inc:{pv:1}});
+            Posts.update(selector, {$inc:{pv:1}}, {multi:true});
             return Posts.find(selector, {fields:{device:0}}).fetch();
         }),
     });
