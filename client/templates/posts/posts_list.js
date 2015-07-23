@@ -63,6 +63,11 @@ Template.postsListItem.events({
       Posts.update(this._id, {$set: {status: 'deleted'}});
     }
   },
+  'click .set-stars': function (e) {
+    var stars = prompt('输入星级：', '1 ~ 7');
+    if (stars)
+      Posts.update(this._id, {$set: {stars: stars}});   
+  },
   'click a.forbid': function (e) {
     if (confirm('确认封禁？')) {
       Posts.update(this._id, {$set: {status: 'forbidden'}});
