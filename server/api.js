@@ -189,6 +189,19 @@ Meteor.startup(function() {
             }
         }),
     })
+    Restivus.addRoute('tips/', {
+        authRequired: false,
+    }, {
+        get: resp(function() {
+            return [
+                '多一点自黑，多一点愉快',
+                '可以讲述今天最开心的事情',
+                '你可能有一些想吐的槽，对吗',
+                '有些事情你可能难以启齿，不过这里可以',
+                '有些事对你来说很平常，却对别人很有趣，尝试着讲一讲',
+            ];
+        }),
+    })
 });
 
 var cache = {};
