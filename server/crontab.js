@@ -73,6 +73,7 @@ function weights(posts, now) {
     })
 }
 
+return;
 SyncedCron.add({
     name: 'auto inc actions for ugc',
     schedule: function(parser) {

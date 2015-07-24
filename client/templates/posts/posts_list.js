@@ -74,7 +74,7 @@ Template.postsListItem.events({
   'click .set-stars': function (e) {
     var stars = parseInt(prompt('输入星级：', '1 ~ 7'));
     if (stars)
-      Posts.update(this._id, {$set: {stars: stars}});   
+      Posts.update(this._id, {$set: {stars: stars, stime: Date.now()}});   
   },
   'click .set-seed': function (e) {
     var post = $(e.target).data('id');
@@ -83,8 +83,6 @@ Template.postsListItem.events({
     if (seed){
       var val = {};
       val['seeds.'+action] = seed;
-      console.log(val);
-      console.log(this);
       Posts.update(post, {$set: val});   
     }
   },
