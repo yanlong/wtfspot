@@ -2,6 +2,18 @@
 var useAuth = true;
 var actions = ['安慰', '送纸'];
 Meteor.startup(function() {
+    Router.route('/api/(.*)', function () {
+        var req = this.request;
+        var res = this.response;
+        if (req.method == 'OPTIONS') {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Device-Id');
+            res.end('');
+        } else {
+            this.next();
+        }
+    }, {where:'server'});
+
     // Global configuration
     Restivus.configure({
         useAuth: true
