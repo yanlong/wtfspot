@@ -14,3 +14,15 @@ Reports.find({}).observe({
 		return;
 	}
 })
+
+Posts.find({device:{$ne:'wtfspot'}, stime:{$exists:false}}).observe({
+	added: function (doc) {
+		Meteor.setTimeout(function () {
+			var post = Posts.findOne({_id: doc._id, stime:{$exists:false}});
+			if (post) {
+				Posts.update(post._id, {$set:{stars:2, stime: Date.now()}});
+				logger.info('Auto set stars of post: ', post._id);
+			}
+		}, 90*1000);
+	}
+})
