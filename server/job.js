@@ -2,20 +2,20 @@ var Seeds = [{
     base: 0,
     duration: 0,
 }, {
-    base: 10,
-    duration: 10,
-}, {
     base: 40,
-    duration: 10,
+    duration: 2,
 }, {
-    base: 100,
-    duration: 10,
+    base: 80,
+    duration: 3,
 }, {
-    base: 300,
-    duration: 15,
+    base: 150,
+    duration: 5,
+}, {
+    base: 320,
+    duration: 8,
 }, {
     base: 800,
-    duration: 20,
+    duration: 12,
 }, {
     base: 2000,
     duration: 30,
