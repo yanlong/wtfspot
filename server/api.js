@@ -105,6 +105,28 @@ Meteor.startup(function() {
             }
             // return selector;
             return Posts.update(selector,{$set: {status: 'deleted'}});
+        }),
+        put: resp(function () {
+            if(this.request.headers['x-bdz-admin'] !== 'wtfspot') {
+                throw new Meteor.Error('auth-failed');
+            }
+            var self = this;
+            var rules = {
+                stars: String,
+            };
+            var post = Posts.findOne(this.params.postId);
+            post.actions.forEach(function (v) {
+                rules['seeds.'+v] = Match.Optional(String);
+            })
+            check(this.bodyParams, rules);
+            var selector = {
+                device: this.deviceId,
+                _id: this.params.postId,
+            }
+            _.each(this.bodyParams, function (v, k) {
+                self.bodyParams[k] = parseInt(v);
+            })
+            return update.call(this, Posts, this.params.postId, selector);
         })
     })
     Restivus.addRoute('posts/:postId/actions/', {
