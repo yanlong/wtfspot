@@ -2,7 +2,7 @@
 var useAuth = true;
 var actions = ['安慰', '送纸'];
 Meteor.startup(function() {
-    Router.route('/api/(.*)', function () {
+    Router.onBeforeAction(function () {
         var req = this.request;
         var res = this.response;
         if (req.method == 'OPTIONS') {
