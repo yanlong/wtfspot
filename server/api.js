@@ -115,13 +115,11 @@ Meteor.startup(function() {
                 stars: String,
             };
             var post = Posts.findOne(this.params.postId);
-            post.actions.forEach(function (v) {
+            post.actions.concat('_light').forEach(function (v) {
                 rules['seeds.'+v] = Match.Optional(String);
             })
             check(this.bodyParams, rules);
             var selector = {
-                device: this.deviceId,
-                _id: this.params.postId,
             }
             _.each(this.bodyParams, function (v, k) {
                 self.bodyParams[k] = parseInt(v);
