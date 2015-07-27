@@ -5,70 +5,52 @@
   <meta name="viewport"
         content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta charset="UTF-8">
+  <meta name="description" content="不点赞, 迅速蹿红的新一代奇葩APP">
   <title>不点赞</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-
-<h1 class="bdz-title">我不想一辈子点赞</h1>
-
-<div class="bdz-box" data-animation="slide-top-fixed">
-  <div class="bdz-content">
-    一年前 摊开的手掌有你的温柔 <br />
-    一年后 紧扣的双手 阻止泪流 <br />
-    这行是凑数的
+<div class="bdz-wrap">
+  <div class="bdz-header">
+    <div class="icon-heart"></div>
+    <h1>迅速蹿红的新一代奇葩APP</h1>
+    <a href="#dl" class="js-dl-app">免费下载</a>
   </div>
-  <ul class="bdz-actions">
-    <li class="bdz-light">
-      <span class="bdz-light-icon"><span></span></span>
-      <div class="bdz-actions-count">
-        <span class="bdz-actions-total" data-total="423">423</span>
-        <span class="bdz-actions-clicked"></span>
-      </div>
-    </li>
-    <li>
-      <span class="bdz-actions-label">呵呵哒</span>
-      <div class="bdz-actions-count">
-        <span class="bdz-actions-total" data-total="23">23</span>
-        <span class="bdz-actions-clicked"></span>
-      </div>
-    </li>
-    <li>
-      <span class="bdz-actions-label">泪奔</span>
-      <div class="bdz-actions-count">
-        <span class="bdz-actions-total" data-total="22">22</span>
-        <span class="bdz-actions-clicked"></span>
-      </div>
-    </li>
-    <li>
-      <span class="bdz-actions-label">心寒寒</span>
-      <div class="bdz-actions-count">
-        <span class="bdz-actions-total" data-total="25">25</span>
-        <span class="bdz-actions-clicked"></span>
-      </div>
-    </li>
-  </ul>
-</div>
 
-<div class="bdz-feature" data-animation="slide-left 500">
-  <div class="bdz-feature-img">
-    <img src="i/feature-1.jpg" alt="" /></div>
-  <div class="bdz-feature-text">
-    <h2>自定义「赞」</h2>
+  <div class="bdz-box" data-animation="slide-top-fixed" data-loading>
+  </div>
+
+  <div class="bdz-feature f1" data-animation="slide-left 600">
+    <div class="bdz-feature-img">
+      <img src="i/f1.png" alt="" /></div>
+    <div class="bdz-feature-text">
+      <h2>自定义“赞”</h2>
+      <p>自己定义希望得到的回应</p>
+    </div>
+  </div>
+
+  <div class="bdz-feature f2" data-animation="slide-right 1200">
+    <div class="bdz-feature-text">
+      <h2>匿名</h2>
+      <p>没有人知道你是谁</p>
+    </div>
+    <div class="bdz-feature-img">
+      <img src="i/f2.png" alt="" /></div>
+  </div>
+
+  <div class="bdz-feature f3" data-animation="slide-left 1800">
+    <div class="bdz-feature-img">
+      <img src="i/f3.png" alt="" /></div>
+    <div class="bdz-feature-text">
+      <h2>世界弹幕</h2>
+      <p>四面八方的炮弹 <br />
+        向你轰来</p>
+    </div>
   </div>
 </div>
-
-<div class="bdz-feature" data-animation="slide-right 1000">
-  <div class="bdz-feature-text">
-    <h2>匿名</h2>
-    <p>做真实的你</p>
-  </div>
-  <div class="bdz-feature-img">
-    <img src="i/feature-2.jpg" alt="" /></div>
-</div>
-
 <div class="bdz-dl">
-  <a href="http://installationpackage.b0.upaiyun.com/BuDianZan_youmeng.apk"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" data-icon="data-transfer" width="128" height="128" class="iconic-data-transfer injected-svg iconic iconic-md" viewBox="0 0 128 128" data-transfer-direction="download" data-src="/iconic/svg/data-transfer.svg">
+  <a href="#dl" class="js-dl-app"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" data-icon="data-transfer" width="128" height="128" class="iconic-data-transfer injected-svg iconic iconic-md" viewBox="0 0 128 128" data-transfer-direction="download" data-src="/iconic/svg/data-transfer.svg">
     <g><title>Data Transfer</title></g>
     <g data-width="60" data-height="128" class="iconic-lg iconic-container" display="inline" transform="translate(34)">
       <g class="iconic-download" display="inline">
@@ -101,13 +83,38 @@
       </g>
     </g>
 
-  </svg>免费下载不点赞</a>
+  </svg>免费下载不点赞 <span class="icon-heart"></span></a>
 </div>
 
 <script type="text/x-ejs" id="tpl">
-  <h2><%= title %></h2>
+  <div class="bdz-content">
+    <%= content %>
+  </div>
+  <ul class="bdz-actions">
+    <li class="bdz-light">
+      <span class="bdz-light-icon"><span></span></span>
+      <div class="bdz-actions-count">
+        <span class="bdz-actions-total" data-total="<%= total %>">
+          <%= total %>
+        </span>
+        <span class="bdz-actions-clicked"></span>
+      </div>
+    </li>
+    <% actions.forEach(function(action){ %>
+      <li>
+      <span class="bdz-actions-label">
+        <%= action.label %>
+      </span>
+      <div class="bdz-actions-count">
+        <span class="bdz-actions-total" data-total="<%= action.total %>">
+          <%= action.total %>
+        </span>
+        <span class="bdz-actions-clicked"></span>
+      </div>
+    </li>
+    <% }) %>
+  </ul>
 </script>
 <script src="app.js"></script>
-
 </body>
 </html>
