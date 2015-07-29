@@ -12,6 +12,7 @@ SyncedCron.add({
             status: {
                 $nin: ['deleted', 'forbidden']
             },
+            stars: {$ne:1},
             $or: [{begin: {$lte:hour}, end: {$gt:hour}}, {$or: [{begin: {$exists:false}},{end: {$exists:false}}]}],
         };
         var now = Date.now();

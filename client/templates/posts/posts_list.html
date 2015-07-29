@@ -23,7 +23,7 @@
       <p>内容：{{content}}</p>
       <p>状态：{{status}}</p>
       <p>场景：{{scene}}</p>
-      <p>星级：{{stars}} <a class="set-stars" href="#">Set</a></p>
+      <p>星级：{{stars}} {{#unless stars}}<a class="set-stars" href="#">Set</a>{{/unless}}</p>
       <p>时间：{{begin}} ~ {{end}}</p>
       <p>回应：
         {{#each actions}}

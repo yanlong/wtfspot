@@ -47,6 +47,7 @@ Meteor.startup(function() {
                 memo['posts.'+v] = 1;
                 return memo;
             }, {})
+            op.mtime = Date.now();
             BrowsingHistory.upsert({device: this.deviceId}, {$set: op})
             return Posts.find(selector, {fields:{device:0}}).fetch();
         }),
@@ -143,6 +144,7 @@ Meteor.startup(function() {
             var selector = {device:this.deviceId, post:this.params.postId};
             var update = {$inc:{}}
             update.$inc['nActions.'+action] = 1;
+            update.$set = {mtime: Date.now()};
             var userAction = Actions.upsert(selector, update);
             userAction = Actions.findOne(selector);
             var now = userAction.nActions[action] || 0;
