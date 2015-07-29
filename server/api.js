@@ -104,11 +104,14 @@ Meteor.startup(function() {
                 device: this.deviceId,
                 _id: this.params.postId,
             }
+            if (this.isAdmin) {
+                delete selector.device;
+            }
             // return selector;
             return Posts.update(selector,{$set: {status: 'deleted'}});
         }),
         put: resp(function () {
-            if(this.request.headers['x-bdz-admin'] !== 'wtfspot') {
+            if(!this.isAdmin) {
                 throw new Meteor.Error('auth-failed');
             }
             var self = this;
@@ -409,6 +412,7 @@ function update(collection, id, selector, defualts, override) {
 function resp(fn) {
     return function() {
         try {
+            this.isAdmin = this.request.headers['x-bdz-admin'] === 'wtfspot';
             this.deviceId = this.request.headers['x-device-id'];
             if (!this.deviceId) {
                 throw new Meteor.Error('no-device-id');
