@@ -226,6 +226,20 @@ Meteor.startup(function() {
             }
         }),
     })
+    Restivus.addRoute('logs/', {
+        authRequired: false,
+    }, {
+        post: resp(function() {
+            check(this.bodyParams, {
+                type: String,
+                data: Object,
+            })
+            var selector = {
+                device: this.deviceId,
+            }
+            return insert.call(this, Logs, selector);
+        }),
+    })
     Restivus.addRoute('tips/', {
         authRequired: false,
     }, {
