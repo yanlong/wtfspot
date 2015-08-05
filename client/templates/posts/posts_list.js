@@ -1,6 +1,7 @@
 Template.postsList.rendered = function () {
   this.find('.wrapper')._uihooks = {
     insertElement: function (node, next) {
+      $('#warning-tone')[0].play();
       $(node)
         .hide()
         .insertBefore(next)
